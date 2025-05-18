@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Cria o banco de dados no Prisma
+model Transaction {
+  id           String                   @id @default(uuid())
+  name         String
+  type         TransactionType
+  amaount      Decimal                  @db.Decimal(10, 2)
+  category     TransactionCategory
+  paymetMethod TransactionPaymentMathod
+  date         DateTime
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+}
+
+// Um enum é como se fosse uma tabela com chave estrangeira
+enum TransactionType {
+  DEPOSIT
+  EXPENSE
+  INVESTMENT
+}
+
+enum TransactionCategory {
+  HOUSING
+  TRANSPORTATION
+  FOOD
+  HEALTH
+  UTILITY
+  SALARY
+  EDUCATION
+  OTHER
+}
+
+enum TransactionPaymentMathod {
+  CREDIT_CARD
+  DEBIT_CARD
+  BANK_TRANSFER
+  BANK_SLIP
+  CASH
+  PIX
+  OTHER
+}
